@@ -17,10 +17,12 @@ f2 :: [String] -> String
 f2 ls = show $ foldl f 0 ls
   where
     f t s = t + score (s!!0) (s!!2)
+    prev x = (x + 1) `mod` 3 + 1
+    next x = x `mod` 3 + 1
     score a b = case b of
-                  'X' -> (p ! a + 1) `mod` 3 + 1  -- lose
-                  'Y' -> p ! a + 3  -- draw
-                  'Z' -> p ! a `mod` 3 + 1 + 6  -- win
+                  'X' -> prev (p ! a)       -- lose
+                  'Y' -> p ! a + 3          -- draw
+                  'Z' -> next (p ! a) + 6   -- win
     p = fromList [('A', 1), ('B', 2), ('C', 3)]
 
 main :: IO ()
